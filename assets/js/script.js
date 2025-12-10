@@ -12,12 +12,12 @@ const buscar = document.getElementById("buscar");
 
 const pedirProducto = () => prompt("Introduce el producto.");
 
-const pedirStock(){
+function pedirStock (){
   const pedir = prompt("Introduce la cantidad de producto.");
   if(!pedir) return null;
 
-  const nueroStock = parseInt(pedir);
-  if(isNan(nueroStock)){
+  const numeroStock = parseInt(pedir);
+  if(isNaN(numeroStock)){
     alert("La cantidad tiene que ser un numero.");
     return null;
   }
@@ -119,7 +119,7 @@ function quitarProducto() {
   let confirma = confirm(`¿Seguro quires borrar el producto ${producto}?`);
   if (confirma) {
     let ubicacion = inventario.productos.findIndex(
-      (p) => p.nombre.toLowerCase() === producto.toLowerCase()
+      (p) => p.nombre && p.nombre.toLowerCase() === producto.toLowerCase()
     );
     if (ubicacion !== -1) {
 
