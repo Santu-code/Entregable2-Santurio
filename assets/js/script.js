@@ -54,7 +54,10 @@ function actualizarDomAgregar(producto, stock) {
 
 function añadirProducto() {
   let producto = pedirProducto();
-  if (!producto) return; // Evita  articulos sin valor definido.
+  if (!producto) return; 
+
+  producto = producto.trim();
+  if (producto === "") return;// Evita  articulos sin valor definido.
 
   let stock = pedirStock();
   if (stock === null) return;
