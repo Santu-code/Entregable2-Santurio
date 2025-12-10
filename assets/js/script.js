@@ -21,7 +21,7 @@ function pedirStock (){
     alert("La cantidad tiene que ser un numero.");
     return null;
   }
-  return nueroStock;
+  return numeroStock;
 } 
 
 //CARGA DEL LOCAL STORAGE:
