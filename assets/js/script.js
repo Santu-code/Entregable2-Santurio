@@ -108,7 +108,10 @@ buscar.addEventListener("click", mirarProducto);//Evento de busqueda.
 
 function quitarProducto() {
   let producto = pedirProducto();
-  if (!producto) return;// Evita  articulos sin valor definido.
+  if (!producto) return;
+  
+  producto = producto.trim();   
+  if (producto === "") return;
 
   let confirma = confirm(`¿Seguro quires borrar el producto ${producto}?`);
   if (confirma) {
