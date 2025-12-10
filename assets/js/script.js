@@ -135,3 +135,18 @@ function quitarProducto() {
 }
 
 eliminar.addEventListener("click", quitarProducto); //Evento de eliminar.
+
+
+//Evitar errores en otras paginas:
+
+if (agregar) {
+  agregar.addEventListener("click", añadirProducto);
+}
+
+if (buscar) {
+  buscar.addEventListener("click", mirarProducto);
+}
+
+if (eliminar) {
+  eliminar.addEventListener("click", quitarProducto);
+}
