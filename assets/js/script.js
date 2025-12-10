@@ -12,7 +12,17 @@ const buscar = document.getElementById("buscar");
 
 const pedirProducto = () => prompt("Introduce el producto.");
 
-const pedirStock = () => prompt("Introduce la cantidad de producto.");
+const pedirStock(){
+  const pedir = prompt("Introduce la cantidad de producto.");
+  if(!pedir) return null;
+
+  const nueroStock = parseInt(pedir);
+  if(isNan(nueroStock)){
+    alert("La cantidad tiene que ser un numero.");
+    return null;
+  }
+  return nueroStock;
+} 
 
 //CARGA DEL LOCAL STORAGE:
 
@@ -48,7 +58,8 @@ function añadirProducto() {
   let producto = pedirProducto();
   if (!producto) return;// Evita  articulos sin valor definido.
 
-  let stock = parseInt(pedirStock());
+  let stock = pedirStock();
+  if(stock === null) return;
   inventario.productos.push({ nombre: producto, cantidad: stock });
 
   console.log(`Producto ${producto} con ${stock} de stock actualizado.`);
