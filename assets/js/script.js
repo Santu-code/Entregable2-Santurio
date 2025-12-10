@@ -73,6 +73,7 @@ function actualizarDomBuscar(producto) {
 
 function mirarProducto() {
   let producto = pedirProducto();
+  if (!producto) return;
 
   let busqueda = inventario.productos.find(
     (p) => p.nombre.toLowerCase() === producto.toLowerCase()
@@ -94,6 +95,7 @@ buscar.addEventListener("click", mirarProducto);//Evento de busqueda.
 
 function quitarProducto() {
   let producto = pedirProducto();
+  if (!producto) return;
 
   let confirma = confirm(`¿Seguro quires borrar el producto ${producto}?`);
   if (confirma) {
