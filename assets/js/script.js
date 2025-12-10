@@ -44,6 +44,7 @@ function actualizarDomAgregar(producto, stock) {
 
 function añadirProducto() {
   let producto = pedirProducto();
+  if (!producto) return;
 
   let stock = parseInt(pedirStock());
   inventario.productos.push({ nombre: producto, cantidad: stock });
