@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List.Work-list/eliminar</title>
+    <!--Link bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <!--Link Fontawesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <!--Link Style CSS-->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!--HEADER-->
+    <header>
+        <nav class="navbar navbar-expand-md fixed-top" data-bs-theme="dark">
+            <div class="container custom-color custom-flex-start">
+                <h1 class="titulo">List.Work-list</h1>
+                <ul class="navbar-nav">
+                    <li class="nav-item ">
+                        <a href="../index.html" class="nav-link">
+                            <span class="icono-nav"><i class="fa-solid fa-house"></i></span>
+                            <span class="titulo-icono">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="lista.html" class="nav-link">
+                            <span class="icono-nav"><i class="fa-solid fa-info"></i></span>
+                            <span class="active">Lista</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="info.html" class="nav-link">
+                            <span class="icono-nav"><i class="fa-solid fa-info"></i></span>
+                            <span class="titulo-icono">Informacion</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="row">
+            <div class="col-6 custom-col">
+                <h2 class="titulo-lista">titulo lista</h2>
+                <ul id="lista" class="lista">
+
+                </ul>
+            </div>
+            <div class="col-6 custom-col">
+                <button id ="agregar" class="boton-funciones">agregar</button>
+                <button id ="eliminar" class="boton-funciones">eliminar</button>
+                <button id ="buscar" class="boton-funciones">buscar</button>
+            </div>
+        </div>
+    </main>
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

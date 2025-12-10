@@ -1,0 +1,29 @@
+
+body{
+    header{
+        nav{
+            .custom-color{
+                background-color: rgb(41, 37, 37);
+                .titulo{
+                color:aqua;
+                text-decoration: underline;
+                font-size: 25px;
+                
+                }
+                ul{
+                    li{
+                        a{
+                            .active{
+                                color:rgb(244, 102, 1);
+                            }
+                            .titulo-icono{
+                                color:rgb(250, 4, 201);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

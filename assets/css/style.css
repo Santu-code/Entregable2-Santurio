@@ -1,0 +1,76 @@
+@charset "UTF-8";
+/* GENERAÑ*/
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* COMPONENTES*/
+body header nav .custom-color {
+  background-color: rgb(41, 37, 37);
+}
+body header nav .custom-color .titulo {
+  color: aqua;
+  text-decoration: underline;
+  font-size: 25px;
+}
+body header nav .custom-color ul li a .active {
+  color: rgb(244, 102, 1);
+}
+body header nav .custom-color ul li a .titulo-icono {
+  color: rgb(250, 4, 201);
+}
+
+body main .funcion-1 {
+  margin-top: 90px;
+}
+body main .funcion-grupo {
+  margin-top: 30px;
+}
+body main .funciones {
+  width: 450px;
+  height: 150px;
+  margin-left: 40px;
+  border-bottom: 2px solid black;
+}
+body main .funciones h2 {
+  text-transform: capitalize;
+  text-decoration: underline;
+}
+body main .funciones button {
+  width: 90px;
+  height: 30px;
+  background-color: rgb(20, 102, 224);
+  color: antiquewhite;
+  border-radius: 5px;
+}
+
+body main div .custom-col {
+  margin-top: 100px;
+}
+body main div .custom-col .titulo-lista {
+  color: blueviolet;
+  text-transform: capitalize;
+  text-decoration: underline;
+  font-style: italic;
+  text-align: center;
+}
+body main div .custom-col .lista {
+  margin-left: 80px;
+  margin-top: 40px;
+  text-transform: capitalize;
+}
+body main div .custom-col .boton-funciones {
+  margin-left: 25px;
+  width: 80px;
+  border-radius: 5px;
+  background-color: rgb(20, 102, 224);
+  color: antiquewhite;
+  text-transform: capitalize;
+}
+
+body main .contenedor-info {
+  text-align: center;
+  margin-top: 70px;
+}/*# sourceMappingURL=style.css.map */
