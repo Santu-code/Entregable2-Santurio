@@ -20,6 +20,7 @@ const inventarioSave = JSON.parse(localStorage.getItem("inventario"));  // Esto 
 if(inventarioSave){
     inventario = inventarioSave;
     inventario.productos.forEach(articulo => {
+      if(!articulo.nombre) return; // Evita que carge articulos sin valor definido.
       actualizarDomAgregar(articulo.nombre, articulo.cantidad);
     })
 
@@ -35,6 +36,7 @@ function guardarLocalStorage() {
 }
 
 function actualizarDomAgregar(producto, stock) {
+  if(!producto) return;// Evita  articulos sin valor definido.
   const ul = document.getElementById("lista");
   const li = document.createElement("li");
   li.textContent = ` Nombre: ${producto}, Stock: ${stock}.`; //Esto modifica el DOM.
@@ -44,7 +46,7 @@ function actualizarDomAgregar(producto, stock) {
 
 function añadirProducto() {
   let producto = pedirProducto();
-  if (!producto) return;
+  if (!producto) return;// Evita  articulos sin valor definido.
 
   let stock = parseInt(pedirStock());
   inventario.productos.push({ nombre: producto, cantidad: stock });
@@ -73,7 +75,7 @@ function actualizarDomBuscar(producto) {
 
 function mirarProducto() {
   let producto = pedirProducto();
-  if (!producto) return;
+  if (!producto) return;// Evita  articulos sin valor definido.
 
   let busqueda = inventario.productos.find(
     (p) => p.nombre.toLowerCase() === producto.toLowerCase()
@@ -95,7 +97,7 @@ buscar.addEventListener("click", mirarProducto);//Evento de busqueda.
 
 function quitarProducto() {
   let producto = pedirProducto();
-  if (!producto) return;
+  if (!producto) return;// Evita  articulos sin valor definido.
 
   let confirma = confirm(`¿Seguro quires borrar el producto ${producto}?`);
   if (confirma) {
