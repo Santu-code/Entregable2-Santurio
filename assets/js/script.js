@@ -35,6 +35,18 @@ if (inventarioSave) {
 
 //FUNCIONES:
 
+//VALIDAR PRODUCTO:
+
+function validarProducto(){
+
+  const productoValido = pedirProducto();
+  if (!productoValido) return null;
+
+  const valido = productoValido.trim();
+  if( valido === "") return null;
+  return valido;
+}
+
 //AGREGAR:
 
 function guardarLocalStorage() {
@@ -52,11 +64,8 @@ function actualizarDomAgregar(producto, stock) {
 }
 
 function añadirProducto() {
-  let producto = pedirProducto();
-  if (!producto) return; 
-
-  producto = producto.trim();
-  if (producto === "") return;// Evita  articulos sin valor definido.
+  let producto = productoValido();
+  if (!producto) return; ;// Evita  articulos sin valor definido.
 
   let stock = pedirStock();
   if (stock === null) return;
@@ -85,11 +94,8 @@ function actualizarDomBuscar(producto) {
 }
 
 function mirarProducto() {
-  let producto = pedirProducto();
-  if (!producto) return;
-
-  producto = producto.trim();
-  if (producto === "") return; // Evita  articulos sin valor definido.
+  let producto = productoValido();
+  if (!producto) return;// Evita  articulos sin valor definido.
 
   let busqueda = inventario.productos.find(
     (p) => p.nombre.toLowerCase() === producto.toLowerCase()
@@ -107,11 +113,8 @@ function mirarProducto() {
 //ELIMINAR:
 
 function quitarProducto() {
-  let producto = pedirProducto();
-  if (!producto) return;
-
-  producto = producto.trim();
-  if (producto === "") return;
+  let producto = productoValido();
+  if (!producto) return;// Evita  articulos sin valor definido.
 
   let confirma = confirm(`¿Seguro quires borrar el producto ${producto}?`);
   if (confirma) {
