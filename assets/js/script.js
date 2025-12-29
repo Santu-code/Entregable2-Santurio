@@ -83,14 +83,13 @@ function añadirProducto() {
 //BUSCAR:
 
 function actualizarDomBuscar(producto) {
+
+  document.querySelectorAll(".productoMarcado").forEach(li => li.classList.remove("productoMarcado"));
+
   const li = document.querySelector(
     `[data-producto="${producto.toLowerCase()}"]`
   );
-  if (li) {
-    li.style.fontWeight = "bold";
-    li.style.fontStyle = "italic";
-    li.style.marginLeft = "90px";
-  }
+  if (li) li.classList.add ("productoMarcado");
 }
 
 function mirarProducto() {

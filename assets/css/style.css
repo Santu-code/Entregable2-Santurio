@@ -61,6 +61,11 @@ body main div .custom-col .lista {
   margin-top: 40px;
   text-transform: capitalize;
 }
+body main div .custom-col .lista .productoMarcado {
+  font-weight: bold;
+  font-style: italic;
+  margin-left: 90px;
+}
 body main div .custom-col .boton-funciones {
   margin-left: 25px;
   width: 80px;
