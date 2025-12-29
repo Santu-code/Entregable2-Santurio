@@ -6,9 +6,7 @@ let inventario = {
   productos: [],
 };
 
-const agregar = document.getElementById("agregar");
-const eliminar = document.getElementById("eliminar");
-const buscar = document.getElementById("buscar");
+
 
 const pedirProducto = () => prompt("Introduce el producto.");
 
@@ -46,6 +44,7 @@ function guardarLocalStorage() {
 function actualizarDomAgregar(producto, stock) {
   if (!producto) return; // Evita  articulos sin valor definido.
   const ul = document.getElementById("lista");
+  if(!ul) return;
   const li = document.createElement("li");
   li.textContent = ` Nombre: ${producto}, Stock: ${stock}.`; //Esto modifica el DOM.
   li.dataset.producto = producto.toLowerCase(); // Esto crea un identificador del li con el nombre del producto.
@@ -70,7 +69,7 @@ function añadirProducto() {
   guardarLocalStorage();
 }
 
-agregar.addEventListener("click", añadirProducto); //Evento de agregar.
+
 
 //BUSCAR:
 
@@ -103,7 +102,7 @@ function mirarProducto() {
   }
 }
 
-buscar.addEventListener("click", mirarProducto); //Evento de busqueda.
+
 
 //ELIMINAR:
 
@@ -134,19 +133,24 @@ function quitarProducto() {
   }
 }
 
-eliminar.addEventListener("click", quitarProducto); //Evento de eliminar.
 
 
-//Evitar errores en otras paginas:
+
+//Llamadas de eventos para  Evitar errores en otras paginas y constantes :
+
+
+const agregar = document.getElementById("agregar");
+const eliminar = document.getElementById("eliminar");
+const buscar = document.getElementById("buscar");
 
 if (agregar) {
-  agregar.addEventListener("click", añadirProducto);
+  agregar.addEventListener("click", añadirProducto);//Evento de agregar.
 }
 
 if (buscar) {
-  buscar.addEventListener("click", mirarProducto);
+  buscar.addEventListener("click", mirarProducto);//Evento de busqueda.
 }
 
 if (eliminar) {
-  eliminar.addEventListener("click", quitarProducto);
+  eliminar.addEventListener("click", quitarProducto);//Evento de eliminar.
 }
