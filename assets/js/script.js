@@ -64,7 +64,7 @@ function actualizarDomAgregar(producto, stock) {
 }
 
 function añadirProducto() {
-  let producto = productoValido();
+  let producto = validarProducto();
   if (!producto) return; ;// Evita  articulos sin valor definido.
 
   let stock = pedirStock();
@@ -94,7 +94,7 @@ function actualizarDomBuscar(producto) {
 }
 
 function mirarProducto() {
-  let producto = productoValido();
+  let producto = validarProducto();
   if (!producto) return;// Evita  articulos sin valor definido.
 
   let busqueda = inventario.productos.find(
@@ -113,7 +113,7 @@ function mirarProducto() {
 //ELIMINAR:
 
 function quitarProducto() {
-  let producto = productoValido();
+  let producto = validarProducto();
   if (!producto) return;// Evita  articulos sin valor definido.
 
   let confirma = confirm(`¿Seguro quires borrar el producto ${producto}?`);
