@@ -1,53 +1,123 @@
-//SCRIPT:
-
-//Variables y constantes
+            //SCRIPT:
+            //Variables y constantes principales
 
 let inventario = {
   productos: [],
 };
 
 
+async function pedirProductoSwal(){
+    const { value } = await Swal.fire({
+    title: "Introduce el Producto",
+    input: "text",
+    inputLabel: "Nombre del producto",
+    inputPlaceholder: "Ej: Manzana",
+    showCancelButton: true,
+    inputValidator: (value) => {
+      if (!value || !value.trim()) return "Tienes que escribir un nombre";
+    }
+  });
 
-const pedirProducto = () => prompt("Introduce el producto.");
-
-function pedirStock() {
-  const pedir = prompt("Introduce la cantidad de producto.");
-  if (!pedir) return null;
-
-  const numeroStock = parseInt(pedir);
-  if (isNaN(numeroStock)) {
-    alert("La cantidad tiene que ser un numero.");
-    return null;
-  }
-  return numeroStock;
+  return value ? value.trim() : null;
 }
 
-//CARGA DEL LOCAL STORAGE:
 
-const inventarioSave = JSON.parse(localStorage.getItem("inventario")); // Esto sirve para recuperar del localStorage lo guardado y que lo muestre en el Dom al abrir la pagina.
-if (inventarioSave) {
+async function pedirStockSwal() {
+  const res = await Swal.fire({
+    title: "Cantidad",
+    input: "number",
+    inputLabel: "Introduce la cantidad",
+    inputPlaceholder: "Ej: 10",
+    showCancelButton: true,
+    inputAttributes: { min: 0, step: 1 },
+    inputValidator: (value) => {
+      if (value === "" || value === null) return "La cantidad es obligatoria";
+      const n = Number(value);
+      if (!Number.isInteger(n) || n < 0) return "Introduce un número válido (0 o más)";
+    }
+  });
+
+  if (!res.isConfirmed) return null; 
+  return Number(res.value);  
+}
+
+            //Cargar datos 
+
+async function preCarga() {
+      const ul = document.getElementById("lista");
+      if (ul) ul.innerHTML ="";
+      
+      //CARGA DEL LOCAL STORAGE:
+
+const inventarioSave = JSON.parse(localStorage.getItem("inventario"));
+
+if (inventarioSave && Array.isArray(inventarioSave.productos)) {
   inventario = inventarioSave;
-  inventario.productos.forEach((articulo) => {
-    if (!articulo.nombre) return; // Evita que carge articulos sin valor definido.
+} else {
+  const data = await fetch("../assets/data.json")
+  .then(r => r.json())
+  .catch(e => console.error("FALLO FETCH/JSON",e));
+  console.log("JSON:", data);
+  inventario.productos = data.productos || [];
+  guardarLocalStorage();
+}
+
+
+inventario.productos.forEach((articulo) => {
+    if (!articulo?.nombre) return; // Evita que carge articulos sin valor definido.
     actualizarDomAgregar(articulo.nombre, articulo.cantidad);
   });
 }
 
-//FUNCIONES:
+document.addEventListener("DOMContentLoaded", () => {
+preCarga().catch(console.error);
+});
+            //Modificar titulo: ---------------falta por meter al git.
+    
+    async function cambiarTitulo() {
+  const { value } = await Swal.fire({
+    title: "Cambiar título",
+    input: "text",
+    inputLabel: "Nuevo título ",
+    inputPlaceholder: "Ej: Lista de la compra",
+    showCancelButton: true,
+    inputValidator: (value) => {
+      if (!value || !value.trim()) {
+        return "El título no puede estar vacío";
+      }
+    }
+  });
 
-//VALIDAR PRODUCTO:
+  if (!value) return;
 
-function validarProducto(){
+  const tituloActualizado = document.getElementById("titulo-lista");
+  if (tituloActualizado) {
+    tituloActualizado.textContent = value.trim();
+  }
 
-  const productoValido = pedirProducto();
-  if (!productoValido) return null;
-
-  const valido = productoValido.trim();
-  if( valido === "") return null;
-  return valido;
+  Swal.fire({
+    position: "top-end",
+    icon: "success",
+    title: "Título actualizado",
+    showConfirmButton: false,
+    timer: 1200
+  });
 }
+    
+    
+    let tituloActualizado = document.getElementById("titulo-lista");
+    if(tituloActualizado){
+    tituloActualizado.addEventListener("click", cambiarTitulo)
+    }
 
-//AGREGAR:
+
+
+
+
+
+            //FUNCIONES:
+
+            //AGREGAR:
 
 function guardarLocalStorage() {
   localStorage.setItem("inventario", JSON.stringify(inventario)); //Guarda en localStorage la lista.
@@ -63,24 +133,59 @@ function actualizarDomAgregar(producto, stock) {
   ul.appendChild(li); //Esto lo añade al HTML.
 }
 
-function añadirProducto() {
-  let producto = validarProducto();
-  if (!producto) return; ;// Evita  articulos sin valor definido.
+function actualizarDomStock(nombre,cantidadActualizada){
+  const li = document.querySelector(`[data-producto="${nombre.toLowerCase()}"]`);
+  if(!li) return;
+  li.textContent = `Nombre: ${nombre}, Stock: ${cantidadActualizada}.`;
 
-  let stock = pedirStock();
+}
+
+async function añadirProducto() {
+  const nombre = await pedirProductoSwal();
+  if (!nombre) return;
+
+  const existente = inventario.productos.find(
+    p => (p.nombre ?? p.item)?.toLowerCase() === nombre.toLowerCase()
+  );
+
+  if (existente) {
+    const confirmacion = await Swal.fire({
+      title: "Producto existente",
+      text: `El producto ${nombre} ya existe. ¿Quieres actualizar el stock?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sí, actualizar",
+      cancelButtonText: "Cancelar"
+    });
+
+    if (!confirmacion.isConfirmed) return;
+
+    const stock = await pedirStockSwal();
+    if (stock === null) return;
+
+    existente.cantidad = stock;
+    actualizarDomStock(nombre, stock);
+  } else {
+  const stock = await pedirStockSwal();
   if (stock === null) return;
-  inventario.productos.push({ nombre: producto, cantidad: stock });
 
-  console.log(`Producto ${producto} con ${stock} de stock actualizado.`);
-
-  actualizarDomAgregar(producto, stock);
+  inventario.productos.push({ nombre, cantidad: stock });
+  actualizarDomAgregar(nombre, stock);
+  }
 
   guardarLocalStorage();
+
+  Swal.fire({
+    position: "top-end",
+    icon: "success",
+    title: `Producto ${nombre} guardado`,
+    showConfirmButton: false,
+    timer: 1200
+  });
 }
 
 
-
-//BUSCAR:
+            //BUSCAR:
 
 function actualizarDomBuscar(producto) {
 
@@ -92,53 +197,76 @@ function actualizarDomBuscar(producto) {
   if (li) li.classList.add ("productoMarcado");
 }
 
-function mirarProducto() {
-  let producto = validarProducto();
-  if (!producto) return;// Evita  articulos sin valor definido.
+  async function mirarProducto() {
+  const nombre = await pedirProductoSwal();
+  if (!nombre) return;
 
-  let busqueda = inventario.productos.find(
-    (p) => p.nombre.toLowerCase() === producto.toLowerCase()
+  const busqueda = inventario.productos.find(
+    (p) => (p.nombre ?? p.item)?.toLowerCase() === nombre.toLowerCase()
   );
+
   if (busqueda) {
-    alert(`El producto ${busqueda.nombre} tiene ${busqueda.cantidad}`);
-    actualizarDomBuscar(busqueda.nombre);
+    const nombreReal = busqueda.nombre ?? busqueda.item;
+
+    Swal.fire({
+      icon: "info",
+      title: "Producto encontrado",
+      text: `${nombreReal} tiene ${busqueda.cantidad} unidades`
+    });
+
+    actualizarDomBuscar(nombreReal);
   } else {
-    alert(`No existe el producto ${producto} de stock.`);
+    Swal.fire({
+      icon: "error",
+      title: "No existe",
+      text: `No existe el producto ${nombre}`
+    });
   }
 }
 
 
 
-//ELIMINAR:
 
-function quitarProducto() {
-  let producto = validarProducto();
-  if (!producto) return;// Evita  articulos sin valor definido.
+            //ELIMINAR:
 
-  let confirma = confirm(`¿Seguro quires borrar el producto ${producto}?`);
-  if (confirma) {
-    let ubicacion = inventario.productos.findIndex(
-      (p) => p.nombre && p.nombre.toLowerCase() === producto.toLowerCase()
+async function quitarProducto() {
+  const nombre = await pedirProductoSwal();
+  if (!nombre) return;
+
+  Swal.fire({
+    title: "¿Seguro?",
+    text: `¿Quieres borrar el producto ${nombre}?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, borrar",
+    cancelButtonText: "Cancelar"
+  }).then((result) => {
+    if (!result.isConfirmed) return;
+
+    const ubicacion = inventario.productos.findIndex(
+      p => (p.nombre ?? p.item)?.toLowerCase() === nombre.toLowerCase()
     );
-    if (ubicacion !== -1) {
-      const li = document.querySelector(
-        `[data-producto="${producto.toLowerCase()}"]`
-      ); //Elimina lo guardado en el Dom.
-      if (li) {
-        li.remove();
-      }
 
-      inventario.productos.splice(ubicacion, 1);
-      alert(`El producto ${producto} a sido borrado del inventario.`);
-      guardarLocalStorage();
+    if (ubicacion === -1) {
+      Swal.fire("Error", `El producto ${nombre} no existe`, "error");
+      return;
     }
-  }
+
+    document
+      .querySelector(`[data-producto="${nombre.toLowerCase()}"]`)
+      ?.remove();
+
+    inventario.productos.splice(ubicacion, 1);
+    guardarLocalStorage();
+
+    Swal.fire("Borrado", `El producto ${nombre} ha sido eliminado`, "success");
+  });
 }
 
 
 
 
-//Llamadas de eventos para  Evitar errores en otras paginas y constantes :
+            //Llamadas de eventos para  Evitar errores en otras paginas y constantes :
 
 
 const agregar = document.getElementById("agregar");
@@ -156,3 +284,5 @@ if (buscar) {
 if (eliminar) {
   eliminar.addEventListener("click", quitarProducto);//Evento de eliminar.
 }
+
+

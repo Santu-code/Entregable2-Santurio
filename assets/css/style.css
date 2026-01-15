@@ -46,33 +46,49 @@ body main .funciones button {
   border-radius: 5px;
 }
 
-body main div .custom-col {
+body main .contenedor-div {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: auto;
+  height: auto;
+}
+body main .contenedor-div .custom-col {
   margin-top: 100px;
 }
-body main div .custom-col .titulo-lista {
-  color: blueviolet;
+body main .contenedor-div .custom-col .titulo-lista {
+  color: rgb(142, 5, 247);
   text-transform: capitalize;
   text-decoration: underline;
   font-style: italic;
   text-align: center;
 }
-body main div .custom-col .lista {
+body main .contenedor-div .custom-col .lista {
   margin-left: 80px;
   margin-top: 40px;
   text-transform: capitalize;
 }
-body main div .custom-col .lista .productoMarcado {
+body main .contenedor-div .custom-col .lista .productoMarcado {
   font-weight: bold;
   font-style: italic;
   margin-left: 90px;
 }
-body main div .custom-col .boton-funciones {
+body main .contenedor-div .custom-col .boton-funciones {
   margin-left: 25px;
   width: 80px;
   border-radius: 5px;
   background-color: rgb(20, 102, 224);
   color: antiquewhite;
   text-transform: capitalize;
+}
+body main .contenedor-div .lista-contenedor {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 600px;
+  overflow-y: auto;
+  border: 1px solid black;
+  border-radius: 3px;
 }
 
 body main .contenedor-info {

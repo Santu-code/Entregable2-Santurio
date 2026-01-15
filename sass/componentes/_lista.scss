@@ -2,11 +2,17 @@
 
 body{
     main{
-        div{
+        .contenedor-div{
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: auto;
+            height: auto;
+            
             .custom-col{
                 margin-top: 100px;
                 .titulo-lista{
-                    color: blueviolet;
+                    color: rgb(142, 5, 247);
                     text-transform: capitalize;
                     text-decoration: underline;
                     font-style:italic;
@@ -30,6 +36,15 @@ body{
                     color: antiquewhite;
                     text-transform: capitalize;
                 }
+            }
+            .lista-contenedor{
+                display: flex;
+                flex-direction: column;
+                width: 400px;
+                height: 600px;
+                overflow-y: auto;
+                border: 1px solid black;
+                border-radius: 3px;
             }
         }
     }
