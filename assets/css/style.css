@@ -50,7 +50,7 @@ body main .contenedor-div {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  width: auto;
+  width: 100%;
   height: auto;
 }
 body main .contenedor-div .custom-col {
@@ -89,6 +89,16 @@ body main .contenedor-div .lista-contenedor {
   overflow-y: auto;
   border: 1px solid black;
   border-radius: 3px;
+}
+body main .contenedor-div .div-botones {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+body main .contenedor-div .contenedor-ventana {
+  display: flex;
+  justify-content: flex-end;
 }
 
 body main .contenedor-info {

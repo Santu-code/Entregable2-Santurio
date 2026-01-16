@@ -262,7 +262,73 @@ async function quitarProducto() {
   });
 }
 
+          //Borrar lista
 
+  async function borrarLista(){
+    const respuesta = await Swal.fire({
+    title: "¿Vaciar la lista?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, vaciar",
+    cancelButtonText: "Cancelar"
+  });
+
+  if (!respuesta.isConfirmed) return;
+
+  inventario.productos = [];
+  guardarLocalStorage();
+
+  const ul = document.getElementById("lista");
+  if (ul) ul.innerHTML = "";
+
+  Swal.fire({
+    icon: "success",
+    title: "Lista vaciada",
+    timer: 1200,
+    showConfirmButton: false
+  });
+    
+
+  }
+
+
+          //Resetear la LIsta :
+
+  async function resetearLista(){
+    const respuesta = await Swal.fire({
+    title: "¿Restablecer lista?",
+    text: "Se cargarán de nuevo los valores iniciales",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, resetear",
+    cancelButtonText: "Cancelar"
+    });
+    
+    if(!respuesta.isConfirmed) return;
+    const data = await fetch("../assets/data.json")
+    .then(respuesta => respuesta.json())
+    .catch(() => null);
+
+  inventario.productos = Array.isArray(data?.productos) ? data.productos : [];
+  guardarLocalStorage();
+
+  const ul = document.getElementById("lista");
+  if (ul) ul.innerHTML = "";
+  inventario.productos.forEach(p =>
+    actualizarDomAgregar(p.nombre, p.cantidad)
+  );
+
+  Swal.fire({
+    icon: "success",
+    title: "Lista restaurada",
+    timer: 1200,
+    showConfirmButton: false
+  });
+
+
+
+
+  }
 
 
             //Llamadas de eventos para  Evitar errores en otras paginas y constantes :
@@ -271,6 +337,8 @@ async function quitarProducto() {
 const agregar = document.getElementById("agregar");
 const eliminar = document.getElementById("eliminar");
 const buscar = document.getElementById("buscar");
+const borrar = document.getElementById("borrar");
+const resetear = document.getElementById("resetear")
 
 if (agregar) {
   agregar.addEventListener("click", añadirProducto);//Evento de agregar.
@@ -284,4 +352,10 @@ if (eliminar) {
   eliminar.addEventListener("click", quitarProducto);//Evento de eliminar.
 }
 
+if (borrar) {
+  borrar.addEventListener("click", borrarLista);
+}
 
+if(resetear) {
+  resetear.addEventListener("click", resetearLista);
+}
