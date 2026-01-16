@@ -55,10 +55,9 @@ if (inventarioSave && Array.isArray(inventarioSave.productos)) {
   inventario = inventarioSave;
 } else {
   const data = await fetch("../assets/data.json")
-  .then(r => r.json())
-  .catch(e => console.error("FALLO FETCH/JSON",e));
-  console.log("JSON:", data);
-  inventario.productos = data.productos || [];
+  .then(respuesta => respuesta.json())
+  .catch(() => null);
+  inventario.productos = Array.isArray(data?.productos) ? data.productos : [];
   guardarLocalStorage();
 }
 
@@ -70,7 +69,7 @@ inventario.productos.forEach((articulo) => {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-preCarga().catch(console.error);
+preCarga().catch(() => {});
 });
             //Modificar titulo: ---------------falta por meter al git.
     
@@ -145,7 +144,7 @@ async function añadirProducto() {
   if (!nombre) return;
 
   const existente = inventario.productos.find(
-    p => (p.nombre ?? p.item)?.toLowerCase() === nombre.toLowerCase()
+    p => (p.nombre)?.toLowerCase() === nombre.toLowerCase()
   );
 
   if (existente) {
@@ -202,11 +201,11 @@ function actualizarDomBuscar(producto) {
   if (!nombre) return;
 
   const busqueda = inventario.productos.find(
-    (p) => (p.nombre ?? p.item)?.toLowerCase() === nombre.toLowerCase()
+    (p) => (p.nombre)?.toLowerCase() === nombre.toLowerCase()
   );
 
   if (busqueda) {
-    const nombreReal = busqueda.nombre ?? busqueda.item;
+    const nombreReal = busqueda.nombre;
 
     Swal.fire({
       icon: "info",
@@ -244,7 +243,7 @@ async function quitarProducto() {
     if (!result.isConfirmed) return;
 
     const ubicacion = inventario.productos.findIndex(
-      p => (p.nombre ?? p.item)?.toLowerCase() === nombre.toLowerCase()
+      p => (p.nombre)?.toLowerCase() === nombre.toLowerCase()
     );
 
     if (ubicacion === -1) {
